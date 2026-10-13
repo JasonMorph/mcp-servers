@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "updated_at": "2026-10-13",
+  "metadata": {
+    "name": "Central AI & MCP Registry",
+    "description": "Библиотека с конфигурации за MCP сървъри, агентни роли, инструменти и модели",
+    "author": "Jason Morph"
+  },
+  "mcp_servers": {
+    "github": {
+      "title": "GitHub Official Server",
+      "description": "Управление на repos, issues, pull requests и търсене в GitHub",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "tags": [
+        "git",
+        "automation",
+        "cloud"
+      ]
+    },
+    "filesystem": {
+      "title": "Local Filesystem Access",
+      "description": "Четене и запис в разрешени директории извън текущия workspace",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/workspace"
+      ],
+      "tags": [
+        "files",
+        "io"
+      ]
+    },
+    "fetch": {
+      "title": "Web Fetch & Scrape",
+      "description": "Сваляне на документации и уеб съдържание",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-fetch"
+      ],
+      "tags": [
+        "web",
+        "docs"
+      ]
+    },
+    "sqlite": {
+      "title": "SQLite Database Manager",
+      "description": "SQL заявки и инспекция на таблици",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        "/workspace/data/app.db"
+      ],
+      "tags": [
+        "database",
+        "sql"
+      ]
+    },
+    "puppeteer": {
+      "title": "Headless Browser Automation",
+      "description": "Рендиране на dynamic страници, кликане и скрийншоти",
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ],
+      "env": {
+        "PUPPETEER_HEADLESS": "true"
+      },
+      "tags": [
+        "browser",
+        "automation"
+      ]
+    }
+  },
+  "skills": {
+    "architect": {
+      "title": "System Architect & Planner",
+      "file": "skills/architect.md",
+      "description": "Анализ на кода и създаване на стъпков план без директни редакции"
+    },
+    "engineer": {
+      "title": "Feature Code Engineer",
+      "file": "skills/engineer.md",
+      "description": "Имплементация на код с фокус върху чиста архитектура и типова безопасност"
+    },
+    "clinerules": {
+      "title": "Global TDD & Git Rules",
+      "file": "skills/.clinerules",
+      "description": "Основни инженерни правила и конвенции за комитиране"
+    }
+  },
+  "tools": {
+    "repo_agent": {
+      "title": "Automated Repo Fork & Fix Bot",
+      "path": "tools/repo_agent.py",
+      "runtime": "python3",
+      "description": "Автономен скрипт за fork, clone, sync и LLM самокорекция"
+    }
+  },
+  "models": {
+    "default_provider": "local_ollama",
+    "endpoints": {
+      "local_ollama": {
+        "base_url": "http://localhost:11434/v1",
+        "api_key": "ollama",
+        "preferred_models": {
+          "code": "qwen2.5-coder:32b",
+          "chat": "llama3.1:latest"
+        }
+      },
+      "openrouter": {
+        "base_url": "https://openrouter.ai/api/v1",
+        "api_key_env": "OPENROUTER_API_KEY",
+        "preferred_models": {
+          "code": "anthropic/claude-3.5-sonnet",
+          "fast": "openai/gpt-4o-mini"
+        }
+      }
+    }
+  }
+}
